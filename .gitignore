@@ -38,10 +38,17 @@ buck-out
 
 # Android
 .idea
-.gradle
 local.properties
 *.iml
-/android/
+*.pro
+BUCK
+android/.gradle
+android/app/build
+android/build
+android/gradle
+android/keystores
+android/gradlew
+android/gradlew.bat
 
 # Node
 node_modules
