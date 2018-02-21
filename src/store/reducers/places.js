@@ -12,15 +12,14 @@ const reducer = (state = initialState, action) => {
         places: state.places.concat({
           key: Math.random(),
           name: action.placeName,
-          image: {
-            uri: 'http://vacationidea.com/pix/img25Hy8R/articles/most-beautiful-places-in-the-world_g19_mobi.jpg'
-          }
+          image: { uri: action.image.uri },
+          location: action.location
         })
       };
     case DELETE_PLACE:
       return {
         ...state,
-        places: state.places.filter(place => {
+        places: state.places.filter((place) => {
           return place.key !== action.placeKey;
         })
       };
