@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -6,7 +6,8 @@ import {
   Button,
   StyleSheet,
   ScrollView,
-  Image
+  Image,
+  ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -18,7 +19,7 @@ import PickImage from '../../components/PickImage/PickImage';
 import PickLocation from '../../components/PickLocation/PickLocation';
 import validate from '../../utility/validation';
 
-class SharePlaceScreen extends React.Component {
+class SharePlaceScreen extends Component {
   static navigatorStyle = {
     navBarButtonColor: 'orange'
   };
@@ -28,10 +29,10 @@ class SharePlaceScreen extends React.Component {
       placeName: {
         value: '',
         valid: false,
+        touched: false,
         validationRules: {
           notEmpty: true
-        },
-        touched: false
+        }
       },
       location: {
         value: null,
@@ -112,6 +113,22 @@ class SharePlaceScreen extends React.Component {
   };
 
   render() {
+    let submitButton = (
+      <Button
+        title="Share the Place!"
+        onPress={this.placeAddedHandler}
+        disabled={
+          !this.state.controls.placeName.valid &&
+          !this.state.controls.location.valid &&
+          !this.state.controls.image.valid
+        }
+      />
+    );
+
+    if (this.props.isLoading) {
+      submitButton = <ActivityIndicator />;
+    }
+
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -124,15 +141,7 @@ class SharePlaceScreen extends React.Component {
             placeData={this.state.controls.placeName}
             onChangeText={this.placeNameChangedHandler}
           />
-          <Button
-            title="Share the Place!"
-            onPress={this.placeAddedHandler}
-            disabled={
-              !this.state.controls.placeName.valid &&
-              !this.state.controls.location.valid &&
-              !this.state.controls.image.valid
-            }
-          />
+          <View style={styles.button}>{submitButton}</View>
         </View>
       </ScrollView>
     );
@@ -160,6 +169,12 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = (state) => {
+  return {
+    isLoading: state.ui.isLoading
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onAddPlace: (placeName, location, image) =>
@@ -167,4 +182,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(SharePlaceScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SharePlaceScreen);

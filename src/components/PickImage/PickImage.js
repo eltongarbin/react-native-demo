@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, Image, Button, StyleSheet } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 
-class PickImage extends React.Component {
+class PickImage extends Component {
   state = {
-    pickedImage: null
+    pickedImaged: null
   };
 
   pickImageHandler = () => {
@@ -15,7 +15,7 @@ class PickImage extends React.Component {
         console.log('Error', res.error);
       } else {
         this.setState({
-          pickedImage: { uri: res.uri }
+          pickedImaged: { uri: res.uri }
         });
 
         this.props.onImagePicked({ uri: res.uri, base64: res.data });
@@ -27,7 +27,7 @@ class PickImage extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.placeholder}>
-          <Image source={this.state.pickedImage} style={styles.previewImage} />
+          <Image source={this.state.pickedImaged} style={styles.previewImage} />
         </View>
         <View style={styles.button}>
           <Button title="Pick Image" onPress={this.pickImageHandler} />

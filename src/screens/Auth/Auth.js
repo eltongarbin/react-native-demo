@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -23,7 +23,7 @@ import validate from '../../utility/validation';
 
 import { tryAuth } from '../../store/actions/index';
 
-class AuthScreen extends React.Component {
+class AuthScreen extends Component {
   state = {
     viewMode: Dimensions.get('window').height > 500 ? 'portrait' : 'landscape',
     authMode: 'login',
@@ -64,17 +64,17 @@ class AuthScreen extends React.Component {
     Dimensions.removeEventListener('change', this.updateStyles);
   }
 
-  updateStyles = (dims) => {
-    this.setState({
-      viewMode: Dimensions.get('window').height > 500 ? 'portrait' : 'landscape'
-    });
-  };
-
   switchAuthModeHandler = () => {
     this.setState((prevState) => {
       return {
         authMode: prevState.authMode === 'login' ? 'signup' : 'login'
       };
+    });
+  };
+
+  updateStyles = (dims) => {
+    this.setState({
+      viewMode: dims.window.height > 500 ? 'portrait' : 'landscape'
     });
   };
 

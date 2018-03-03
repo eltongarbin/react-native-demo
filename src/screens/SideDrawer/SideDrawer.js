@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from "react";
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-class SideDrawer extends React.Component {
+class SideDrawer extends Component {
   render() {
     return (
       <View

@@ -1,18 +1,19 @@
-import React from "react";
+import React, { Component } from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   Animated
-} from "react-native";
-import { connect } from "react-redux";
+} from 'react-native';
+import { connect } from 'react-redux';
 
-import PlaceList from "../../components/PlaceList/PlaceList";
+import PlaceList from '../../components/PlaceList/PlaceList';
+import { getPlaces } from '../../store/actions/index';
 
-class FindPlaceScreen extends React.Component {
+class FindPlaceScreen extends Component {
   static navigatorStyle = {
-    navBarButtonColor: "orange"
+    navBarButtonColor: 'orange'
   };
 
   state = {
@@ -26,11 +27,15 @@ class FindPlaceScreen extends React.Component {
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
-  onNavigatorEvent = event => {
-    if (event.type === "NavBarButtonPress") {
-      if (event.id === "sideDrawerToggle") {
+  componentDidMount() {
+    this.props.onLoadPlaces();
+  }
+
+  onNavigatorEvent = (event) => {
+    if (event.type === 'NavBarButtonPress') {
+      if (event.id === 'sideDrawerToggle') {
         this.props.navigator.toggleDrawer({
-          side: "left"
+          side: 'left'
         });
       }
     }
@@ -57,13 +62,13 @@ class FindPlaceScreen extends React.Component {
     });
   };
 
-  itemSelectedHandler = key => {
-    const selPlace = this.props.places.find(place => {
+  itemSelectedHandler = (key) => {
+    const selPlace = this.props.places.find((place) => {
       return place.key === key;
     });
 
     this.props.navigator.push({
-      screen: "awesome-places.PlaceDetailScreen",
+      screen: 'awesome-places.PlaceDetailScreen',
       title: selPlace.name,
       passProps: {
         selectedPlace: selPlace
@@ -116,26 +121,32 @@ class FindPlaceScreen extends React.Component {
 const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   searchButton: {
-    borderColor: "orange",
+    borderColor: 'orange',
     borderWidth: 3,
     borderRadius: 50,
     padding: 20
   },
   searchButtonText: {
-    color: "orange",
-    fontWeight: "bold",
+    color: 'orange',
+    fontWeight: 'bold',
     fontSize: 26
   }
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     places: state.places.places
   };
 };
 
-export default connect(mapStateToProps)(FindPlaceScreen);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLoadPlaces: () => dispatch(getPlaces())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FindPlaceScreen);

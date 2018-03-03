@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, Button, Text, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 
-class PickLocation extends React.Component {
+class PickLocation extends Component {
   state = {
     focusedLocation: {
       latitude: 37.7900352,
