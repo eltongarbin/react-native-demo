@@ -66,3 +66,4 @@ node_modules
 /coverage
 /third-party
 android/app/my-release-key.keystore
+android/app/bin/
